@@ -19,11 +19,11 @@
             bst.Insert(39);
             bst.Insert(45);
 
+            //bst.EachInOrder(Console.WriteLine);
+
+            bst.DeleteMax();
+
             bst.EachInOrder(Console.WriteLine);
-
-            var count = bst.Count();
-
-            Console.WriteLine(count);
         }
     }
 }

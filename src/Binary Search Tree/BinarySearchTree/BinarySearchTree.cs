@@ -75,8 +75,29 @@ public class BinarySearchTree<T> : IBinarySearchTree<T> where T:IComparable
 
     public void DeleteMax()
     {
-        throw new NotImplementedException();
+        if (this.root == null)
+        {
+            throw new InvalidOperationException();
+        }
+
+        Node current = this.root;
+        Node parent = null;
+        while (current.Right != null)
+        {
+            parent = current;
+            current = current.Right;
+        }
+
+        if (parent == null)
+        {
+            this.root = this.root.Left;
+        }
+        else
+        {
+            parent.Right = current.Left;
+        }
     }
+
 
     public int Count()
         => this.Count(this.root);
