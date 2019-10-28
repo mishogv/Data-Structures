@@ -21,6 +21,20 @@ namespace Basic_Tree_Data_Structures
             //PrintAllPathsWithGivenSum(root, sum);
             //PrintLongestPathLeftPriority();
             //FindAllSubtreesWithGivenSum(root, sum);
+
+            //          9
+            //          7 19
+            //          7 21
+            //          7 14
+            //          19 1
+            //          19 12
+            //          19 31
+            //          14 23
+            //          14 6
+            //          43
+
+            var result = new List<List<int>>();
+            treeService.GetTreeWithGivenSum(root, sum, result);
         }
 
 
@@ -37,42 +51,6 @@ namespace Basic_Tree_Data_Structures
 
                 treeService.AddEdge(edge[0], edge[1]);
             }
-        }
-
-
-        private static void FindAllSubtreesWithGivenSum(Tree<int> node, int sum)
-        {
-            // TODO : Implement
-            //var subtrees = new List<List<int>>();
-            //FindAllSubtreesWithGivenSum(node, sum, subtrees, new List<int>());
-            //Console.WriteLine($"Subtrees of sum {sum}:");
-            //subtrees.ForEach(x => Console.WriteLine(string.Join(" ", x)));
-        }
-
-        private static void FindAllSubtreesWithGivenSum(Tree<int> node, int sum, List<List<int>> subtrees, List<int> helper)
-        {
-            // TODO : Implement
-            //if (node == null)
-            //{
-            //    return;
-            //}
-
-            //helper.Add(node.Value);
-
-            //if (helper.Sum() == sum)
-            //{
-            //    subtrees.Add(new List<int>(helper));
-            //}
-
-            ////if (node.Children.Count == 0)
-            ////{
-            ////    return;
-            ////}
-
-            //foreach (var child in node.Children)
-            //{
-            //    FindAllSubtreesWithGivenSum(child, sum, subtrees, helper);
-            //}
         }
     }
 }

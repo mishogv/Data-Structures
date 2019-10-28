@@ -21,5 +21,7 @@ namespace Basic_Tree_Data_Structures
         void AddEdge(int parent, int child);
 
         Tree<int> GetRootNode();
+
+        int GetTreeWithGivenSum(Tree<int> node, int sum, List<List<int>> allSubtree);
     }
 }

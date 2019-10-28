@@ -14,6 +14,34 @@ namespace Basic_Tree_Data_Structures
             this.nodeByValue = valueAndNode;
         }
 
+        public int GetTreeWithGivenSum(Tree<int> node, int sum, List<List<int>> allSubtree)
+        {
+            int currentSum = node.Value;
+
+            foreach (var child in node.Children)
+            {
+                currentSum += GetTreeWithGivenSum(child, sum, allSubtree);
+            }
+
+            if (sum == currentSum)
+            {
+                List<int> subtree = new List<int>();
+                this.GetSubtree(node, subtree);
+                allSubtree.Add(new List<int>(subtree));
+            }
+
+            return currentSum;
+        }
+
+        private void GetSubtree(Tree<int> node, List<int> result)
+        {
+            result.Add(node.Value);
+            foreach (var child in node.Children)
+            {
+                this.GetSubtree(child, result);
+            }
+        }
+
         public IEnumerable<int> GetLongestPathLeftPriority(Tree<int> node)
         {
             var longestPath = new List<int>();
