@@ -21,6 +21,9 @@
 
             bst.EachInOrder(Console.WriteLine);
 
+            var count = bst.Count();
+
+            Console.WriteLine(count);
         }
     }
 }

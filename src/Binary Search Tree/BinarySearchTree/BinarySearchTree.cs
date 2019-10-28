@@ -5,6 +5,119 @@ public class BinarySearchTree<T> : IBinarySearchTree<T> where T:IComparable
 {
     private Node root;
 
+    public BinarySearchTree()
+    {
+
+    }
+
+    public void Insert(T element)
+    {
+        this.root = this.Insert(element, this.root);
+    }
+
+    public bool Contains(T element)
+    {
+        Node current = this.FindElement(element);
+
+        return current != null;
+    }
+
+    public void EachInOrder(Action<T> action)
+    {
+        this.EachInOrder(this.root, action);
+    }
+
+    public BinarySearchTree<T> Search(T element)
+    {
+        Node current = this.FindElement(element);
+
+        return new BinarySearchTree<T>(current);
+    }
+
+    public void DeleteMin()
+    {
+        if (this.root == null)
+        {
+            return;
+        }
+
+        Node current = this.root;
+        Node parent = null;
+        while (current.Left != null)
+        {
+            parent = current;
+            current = current.Left;
+        }
+
+        if (parent == null)
+        {
+            this.root = this.root.Right;
+        }
+        else
+        {
+            parent.Left = current.Right;
+        }
+    }
+
+    public IEnumerable<T> Range(T startRange, T endRange)
+    {
+        Queue<T> queue = new Queue<T>();
+
+        this.Range(this.root, queue, startRange, endRange);
+
+        return queue;
+    }
+
+    public void Delete(T element)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DeleteMax()
+    {
+        throw new NotImplementedException();
+    }
+
+    public int Count()
+        => this.Count(this.root);
+
+    private int Count(Node root)
+    {
+        var count = 1;
+
+        if (root.Left != null)
+        {
+            count += this.Count(root.Left);
+        }
+
+        if (root.Right != null)
+        {
+            count += this.Count(root.Right);
+        }
+
+        return count;
+    }
+
+    public int Rank(T element)
+    {
+        throw new NotImplementedException();
+    }
+
+    public T Select(int rank)
+    {
+        throw new NotImplementedException();
+    }
+
+    public T Ceiling(T element)
+    {
+        throw new NotImplementedException();
+    }
+
+    public T Floor(T element)
+    {
+        throw new NotImplementedException();
+    }
+
     private Node FindElement(T element)
     {
         Node current = this.root;
@@ -97,103 +210,6 @@ public class BinarySearchTree<T> : IBinarySearchTree<T> where T:IComparable
     private BinarySearchTree(Node node)
     {
         this.PreOrderCopy(node);
-    }
-
-    public BinarySearchTree()
-    {
-    }
-    
-    public void Insert(T element)
-    {
-        this.root = this.Insert(element, this.root);
-    }
-    
-    public bool Contains(T element)
-    {
-        Node current = this.FindElement(element);
-
-        return current != null;
-    }
-
-    public void EachInOrder(Action<T> action)
-    {
-        this.EachInOrder(this.root, action);
-    }
-
-    public BinarySearchTree<T> Search(T element)
-    {
-        Node current = this.FindElement(element);
-
-        return new BinarySearchTree<T>(current);
-    }
-
-    public void DeleteMin()
-    {
-        if (this.root == null)
-        {
-            return;
-        }
-
-        Node current = this.root;
-        Node parent = null;
-        while (current.Left != null)
-        {
-            parent = current;
-            current = current.Left;
-        }
-
-        if (parent == null)
-        {
-            this.root = this.root.Right;
-        }
-        else
-        {
-            parent.Left = current.Right;
-        }
-    }
-
-    public IEnumerable<T> Range(T startRange, T endRange)
-    {
-        Queue<T> queue = new Queue<T>();
-
-        this.Range(this.root, queue, startRange, endRange);
-
-        return queue;
-    }
-
-    public void Delete(T element)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void DeleteMax()
-    {
-        throw new NotImplementedException();
-    }
-
-    public int Count()
-    {
-        throw new NotImplementedException();
-    }
-
-    public int Rank(T element)
-    {
-        throw new NotImplementedException();
-    }
-
-    public T Select(int rank)
-    {
-        throw new NotImplementedException();
-    }
-
-    public T Ceiling(T element)
-    {
-        throw new NotImplementedException();
-    }
-
-    public T Floor(T element)
-    {
-        throw new NotImplementedException();
     }
 
     private class Node
