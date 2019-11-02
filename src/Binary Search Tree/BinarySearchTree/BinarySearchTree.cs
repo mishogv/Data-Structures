@@ -38,7 +38,7 @@ public class BinarySearchTree<T> : IBinarySearchTree<T> where T:IComparable
     {
         if (this.root == null)
         {
-            return;
+            throw new InvalidOperationException();
         }
 
         Node current = this.root;
@@ -104,6 +104,11 @@ public class BinarySearchTree<T> : IBinarySearchTree<T> where T:IComparable
 
     private int Count(Node root)
     {
+        if (root == null)
+        {
+            return 0;
+        }
+
         var count = 1;
 
         if (root.Left != null)
@@ -120,24 +125,62 @@ public class BinarySearchTree<T> : IBinarySearchTree<T> where T:IComparable
     }
 
     public int Rank(T element)
+        => this.Rank(element, this.root);
+
+    private int Rank(T element, Node node)
     {
-        throw new NotImplementedException();
+        if (node == null)
+        {
+            return 0;
+        }
+
+        var compare = node.Value.CompareTo(element);
+
+        if (compare > 0)
+        {
+            return this.Rank(element, node.Left);
+        }
+
+        if (compare < 0)
+        {
+            return 1 + this.Count(node.Left) + this.Rank(element, node.Right);
+        }
+
+        return this.Count(node.Left);
     }
 
     public T Select(int rank)
     {
-        throw new NotImplementedException();
+        var node = this.Select(rank, this.root);
+        return node != null ? node.Value : throw new InvalidOperationException();
+    }
+
+    private Node Select(int rank, Node node)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        var leftCount = this.Count(node.Left);
+
+        if (leftCount.CompareTo(rank) > 0)
+        {
+            return this.Select(rank, node.Left);
+        }
+        else if (leftCount.CompareTo(rank) < 0)
+        {
+            return this.Select(rank - (leftCount + 1), node.Right);
+        }
+
+        return node;
     }
 
     public T Ceiling(T element)
-    {
-        throw new NotImplementedException();
-    }
+        => this.Select(this.Rank(element) + 1);
 
     public T Floor(T element)
-    {
-        throw new NotImplementedException();
-    }
+        => this.Select(this.Rank(element) - 1);
 
     private Node FindElement(T element)
     {
