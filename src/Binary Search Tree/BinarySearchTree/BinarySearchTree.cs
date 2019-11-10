@@ -70,7 +70,62 @@ public class BinarySearchTree<T> : IBinarySearchTree<T> where T:IComparable
 
     public void Delete(T element)
     {
-        throw new NotImplementedException();
+        if (this.Count(this.root) == 0 || !this.Contains(element))
+        {
+            throw new InvalidOperationException();
+        }
+
+        this.root = this.Delete(this.root, element);
+    }
+
+    private Node Delete(Node node, T element)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        var compare = node.Value.CompareTo(element);
+
+        if (compare > 0)
+        {
+            node.Left = this.Delete(node.Left, element);
+        }
+        else if (compare < 0)
+        {
+            node.Right = this.Delete(node.Right, element);
+        }
+        else
+        {
+            if (node.Left == null)
+            {
+                return node.Right;
+            }
+
+            if (node.Right == null)
+            {
+                return node.Left;
+            }
+
+            var leftMost = this.LeftMost(node);
+
+            node.Value = leftMost.Value;
+            node.Right = this.Delete(node.Right, leftMost.Value);
+        }
+
+        return node;
+    }
+
+    private Node LeftMost(Node node)
+    {
+        Node current = node;
+
+        while (current.Left != null)
+        {
+            current = current.Left;
+        }
+
+        return current;
     }
 
     public void DeleteMax()
@@ -283,7 +338,7 @@ public class BinarySearchTree<T> : IBinarySearchTree<T> where T:IComparable
             this.Value = value;
         }
 
-        public T Value { get; }
+        public T Value { get; internal set; }
         public Node Left { get; set; }
         public Node Right { get; set; }
     }

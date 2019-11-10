@@ -22,15 +22,15 @@
             bst.Insert(12);
             bst.Insert(14);
             bst.Insert(16);
+            bst.Insert(11);
+            bst.Insert(11);
             bst.Insert(18);
             bst.EachInOrder(Console.WriteLine);
 
             //bst.DeleteMax();
+            bst.Delete(12);
 
-            //bst.EachInOrder(Console.WriteLine);
-
-            var rank = bst.Select(42);
-            Console.WriteLine(rank);
+            bst.EachInOrder(Console.WriteLine);
         }
     }
 }
