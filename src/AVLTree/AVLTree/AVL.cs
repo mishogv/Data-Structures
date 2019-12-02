@@ -23,9 +23,73 @@ public class AVL<T> where T : IComparable<T>
         this.root = this.Insert(this.root, item);
     }
 
-    public void Delete(int v)
+    public void Delete(T item)
     {
-        throw new NotImplementedException();
+        if (!this.Contains(item))
+        {
+            return;
+        }
+        this.root = this.Delete(this.root, item);
+    }
+
+    public Node<T> Delete(Node<T> node, T item)
+    {
+        if (node == null)
+        {
+            return new Node<T>(item);
+        }
+
+        int cmp = item.CompareTo(node.Value);
+        if (cmp < 0)
+        {
+            node.Left = this.Delete(node.Left, item);
+        }
+        else if (cmp > 0)
+        {
+            node.Right = this.Delete(node.Right, item);
+        }
+        else
+        {
+            if (node.Left == null && node.Right == null)
+            {
+                node = null;
+                return node;
+            }
+            else if (node.Left != null && node.Right != null)
+            {
+                var temp = new Node<T>(node.Value);
+                temp.Left = node.Left;
+                temp.Right = node.Right;
+                if (temp.Right.Left != null)
+                {
+                    node = temp.Right.Left;
+                    node.Right = temp.Right;
+                    node.Right.Left = null;
+                    node.Right = Balance(node.Right);
+                    UpdateHeight(node.Right);
+                }
+                else
+                {
+                    node = temp.Right;
+                }
+
+                node.Left = temp.Left;
+            }
+            else if (node.Right != null && node.Left == null)
+            {
+                node = node.Right;
+                UpdateHeight(node);
+            }
+            else if (node.Right == null && node.Left != null)
+            {
+                node = node.Left;
+                UpdateHeight(node);
+            }
+        }
+
+        node = Balance(node);
+        UpdateHeight(node);
+        return node;
     }
 
     public void DeleteMin()
