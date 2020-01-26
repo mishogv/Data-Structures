@@ -50,12 +50,7 @@ public class AVL<T> where T : IComparable<T>
         }
         else
         {
-            if (node.Left == null && node.Right == null)
-            {
-                node = null;
-                return node;
-            }
-            else if (node.Left != null && node.Right != null)
+            if (node.Left != null && node.Right != null)
             {
                 var temp = new Node<T>(node.Value);
                 temp.Left = node.Left;
@@ -85,6 +80,11 @@ public class AVL<T> where T : IComparable<T>
                 node = node.Left;
                 UpdateHeight(node);
             }
+            else
+            {
+                node = null;
+                return node;
+            }
         }
 
         node = Balance(node);
@@ -94,7 +94,33 @@ public class AVL<T> where T : IComparable<T>
 
     public void DeleteMin()
     {
-        throw new NotImplementedException();
+        if (this.root == null)
+        {
+            return;
+        }
+
+        this.root = this.DeleteMin(this.root);
+    }
+
+    private Node<T> DeleteMin(Node<T> node)
+    {
+        var currentNode = node;
+        var nodeBefore = node;
+
+        while (currentNode.Left != null)
+        {
+            nodeBefore = currentNode;
+            currentNode = currentNode.Left;
+        }
+
+        if (currentNode.Value.CompareTo(this.root.Value) == 0)
+        {
+            return null;
+        }
+
+        nodeBefore.Left = null;
+
+        return this.root;
     }
 
     public void EachInOrder(Action<T> action)
